@@ -59,7 +59,23 @@ git commit -m "feat: add icon categories"
 The workflow requires:
 
 - `contents: write` — To push commits and tags
+- `pull-requests: write` — To create releases
 - `GITHUB_TOKEN` — Automatically provided by GitHub Actions
+
+**Already configured:** The workflow file includes:
+```yaml
+permissions:
+  contents: write
+  pull-requests: write
+```
+
+**Repository Settings:**
+Additionally, ensure your repository allows workflows to write:
+1. Go to Settings → Actions → General
+2. Under "Workflow permissions", select "Read and write permissions"
+3. Check "Allow GitHub Actions to create and approve pull requests"
+
+📖 **See [WORKFLOW_SETUP.md](../WORKFLOW_SETUP.md) for detailed setup instructions and troubleshooting.**
 
 ### Manual Override
 
