@@ -3,7 +3,7 @@ name = "Lucide Icons"
 description = "Search and browse Lucide Icons directly in Zed with slash commands"
 version = "0.0.1"
 schema_version = 1
-authors = ["Michael Obele"]
+authors = ["Michael Obele <michael@svelte-apps.me>"]
 repository = "https://github.com/Michael-Obele/lucide-icons"
 
 [slash_commands]

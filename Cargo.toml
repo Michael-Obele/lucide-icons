@@ -2,6 +2,10 @@
 name = "lucide-icons"
 version = "0.0.1"
 edition = "2021"
+license = "MIT"
+authors = ["Michael Obele <michael@svelte-apps.me>"]
+repository = "https://github.com/Michael-Obele/lucide-icons"
+description = "Search and browse Lucide Icons directly in Zed with slash commands"
 
 [lib]
 crate-type = ["cdylib"]
