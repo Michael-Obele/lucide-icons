@@ -104,13 +104,27 @@ export function Header() {
 </script>
 ```
 
-## � Optional: Code Snippets Installation
+## 📝 Optional: Code Snippets Installation
 
 While slash commands provide the fastest workflow, you can optionally install code snippets for traditional autocomplete-style usage (e.g., type `luc` → get completions).
 
 **Note:** This requires manual installation and won't auto-update with the extension. We recommend using slash commands for the best experience.
 
-### Installation Commands
+### ⚠️ Important: Check for Existing Snippets First
+
+**The commands below will overwrite any existing snippet files** (e.g., `javascript.json`, `typescript.json`, etc.).
+
+**Before installing, check if you have existing snippets:**
+
+```bash
+ls ~/.config/zed/snippets/
+```
+
+If you see files like `javascript.json`, `typescript.json`, etc., you have existing snippets that will be replaced.
+
+### Installation Options
+
+#### Option A: Fresh Install (No Existing Snippets)
 
 **macOS:**
 
@@ -124,13 +138,42 @@ cp -r ~/Library/Application\ Support/Zed/extensions/installed/lucide-icons/snipp
 cp -r ~/.local/share/zed/extensions/installed/lucide-icons/snippets/* ~/.config/zed/snippets/
 ```
 
-After running the command, restart Zed or reload the window for snippets to take effect.
+#### Option B: Backup First (If You Have Existing Snippets)
+
+**macOS:**
+
+```bash
+# Backup existing snippets
+cp -r ~/.config/zed/snippets ~/.config/zed/snippets.backup
+
+# Install Lucide snippets
+cp -r ~/Library/Application\ Support/Zed/extensions/installed/lucide-icons/snippets/* ~/.config/zed/snippets/
+```
+
+**Linux:**
+
+```bash
+# Backup existing snippets
+cp -r ~/.config/zed/snippets ~/.config/zed/snippets.backup
+
+# Install Lucide snippets
+cp -r ~/.local/share/zed/extensions/installed/lucide-icons/snippets/* ~/.config/zed/snippets/
+```
+
+#### Option C: Manual Merge (Safest)
+
+1. Open the extension snippets folder and your snippets folder side-by-side
+2. View our snippet files on [GitHub](https://github.com/Michael-Obele/lucide-icons/tree/main/snippets)
+3. Manually copy the snippets you want into your existing files
+4. This way you keep your existing snippets and add only the Lucide ones you need
+
+**After installation**, restart Zed or reload the window for snippets to take effect.
 
 ### Available Snippet Prefixes
 
 Once installed, you can use these prefixes in your code:
 
-- **React/TypeScript:** `luc`, `luci`, `lucic`, `lucm`
+- **React/TypeScript:** `luc`, `luci`, `lucic`, `lucm`, `luct` (TypeScript only)
 - **Svelte:** `luc`, `luci`, `lucic`, `lucm`, `luca`
 - **Vue:** `luc`, `luci`, `lucic`, `lucm`, `lucv`
 - **HTML:** `luc`, `luci`, `luccdn`, `lucsvg`
