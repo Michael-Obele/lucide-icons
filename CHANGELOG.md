@@ -2,6 +2,24 @@
 
 ## [0.0.3] - 2025-10-26
 
+### Added
+- 📝 **Optional Code Snippets** - Framework-specific snippets for traditional autocomplete workflow
+  - JavaScript/TypeScript React snippets (`luc`, `luci`, `lucic`, `lucm`, `luct`)
+  - Svelte 5 snippets with runes support (`luc`, `luci`, `lucic`, `lucm`, `luca`)
+  - Vue 3 Composition API snippets (`luc`, `luci`, `lucic`, `lucm`, `lucv`)
+  - HTML/CDN snippets (`luc`, `luci`, `luccdn`, `lucsvg`)
+  - Installation instructions for macOS and Linux in README
+  - `snippets/README.md` with usage guide
+
+### Changed
+- Updated README with optional snippets installation section
+- Clarified that slash commands remain the recommended workflow
+
+### Note
+Snippets require manual installation via terminal command. Slash commands provide zero-setup workflow with auto-updates.
+
+## [0.0.2] - 2025-10-26
+
 ### Changed
 - Version bump: patch
 

@@ -1,0 +1,26 @@
+{
+  "Lucide Icon Import": {
+    "prefix": "luc",
+    "body": "import { ${1:Home} } from 'lucide-react';",
+    "description": "Import a Lucide icon from lucide-react"
+  },
+  "Lucide Icon Component": {
+    "prefix": "luci",
+    "body": "<${1:Home} size={${2:24}} />",
+    "description": "Insert a Lucide icon component"
+  },
+  "Lucide Icon Component with Props": {
+    "prefix": "lucic",
+    "body": "<${1:Home} size={${2:24}} color=\"${3:#000}\" strokeWidth={${4:2}} />",
+    "description": "Insert a Lucide icon with common props"
+  },
+  "Lucide Icon Import and Use": {
+    "prefix": "lucm",
+    "body": [
+      "import { ${1:Home} } from 'lucide-react';",
+      "",
+      "<${1:Home} size={${2:24}} />"
+    ],
+    "description": "Import and use a Lucide icon"
+  }
+}

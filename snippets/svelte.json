@@ -1,0 +1,37 @@
+{
+  "Lucide Icon Import": {
+    "prefix": "luc",
+    "body": "import { ${1:Home} } from '@lucide/svelte';",
+    "description": "Import a Lucide icon from @lucide/svelte"
+  },
+  "Lucide Icon Component": {
+    "prefix": "luci",
+    "body": "<${1:Home} size={${2:24}} />",
+    "description": "Insert a Lucide icon component"
+  },
+  "Lucide Icon Component with Props": {
+    "prefix": "lucic",
+    "body": "<${1:Home} size={${2:24}} color=\"${3:#000}\" strokeWidth={${4:2}} />",
+    "description": "Insert a Lucide icon with common props"
+  },
+  "Lucide Icon Import and Use": {
+    "prefix": "lucm",
+    "body": [
+      "import { ${1:Home} } from '@lucide/svelte';",
+      "",
+      "<${1:Home} size={${2:24}} />"
+    ],
+    "description": "Import and use a Lucide icon"
+  },
+  "Lucide Icon with Reactive Size": {
+    "prefix": "luca",
+    "body": [
+      "import { ${1:Home} } from '@lucide/svelte';",
+      "",
+      "let iconSize = \\$state(${2:24});",
+      "",
+      "<${1:Home} size={iconSize} />"
+    ],
+    "description": "Lucide icon with reactive size using Svelte 5 runes"
+  }
+}

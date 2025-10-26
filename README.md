@@ -104,7 +104,38 @@ export function Header() {
 </script>
 ```
 
-## 🛠️ Development
+## � Optional: Code Snippets Installation
+
+While slash commands provide the fastest workflow, you can optionally install code snippets for traditional autocomplete-style usage (e.g., type `luc` → get completions).
+
+**Note:** This requires manual installation and won't auto-update with the extension. We recommend using slash commands for the best experience.
+
+### Installation Commands
+
+**macOS:**
+
+```bash
+cp -r ~/Library/Application\ Support/Zed/extensions/installed/lucide-icons/snippets/* ~/.config/zed/snippets/
+```
+
+**Linux:**
+
+```bash
+cp -r ~/.local/share/zed/extensions/installed/lucide-icons/snippets/* ~/.config/zed/snippets/
+```
+
+After running the command, restart Zed or reload the window for snippets to take effect.
+
+### Available Snippet Prefixes
+
+Once installed, you can use these prefixes in your code:
+
+- **React/TypeScript:** `luc`, `luci`, `lucic`, `lucm`
+- **Svelte:** `luc`, `luci`, `lucic`, `lucm`, `luca`
+- **Vue:** `luc`, `luci`, `lucic`, `lucm`, `lucv`
+- **HTML:** `luc`, `luci`, `luccdn`, `lucsvg`
+
+## �🛠️ Development
 
 - **Prerequisites:** Rust (via [rustup](https://rustup.rs/)), Cargo, and the `wasm32-wasip1` target (`rustup target add wasm32-wasip1`).
 - **Build:** `cargo build --release`

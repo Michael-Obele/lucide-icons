@@ -1,0 +1,33 @@
+{
+  "Lucide Icon Element": {
+    "prefix": "luc",
+    "body": "<i data-lucide=\"${1:home}\"></i>",
+    "description": "Insert a Lucide icon element"
+  },
+  "Lucide Icon with Attributes": {
+    "prefix": "luci",
+    "body": "<i data-lucide=\"${1:home}\" data-lucide-size=\"${2:24}\" data-lucide-stroke-width=\"${3:2}\"></i>",
+    "description": "Insert a Lucide icon with size and stroke-width"
+  },
+  "Lucide Icon CDN Script": {
+    "prefix": "luccdn",
+    "body": [
+      "<script src=\"https://unpkg.com/lucide@latest\"></script>",
+      "<script>",
+      "  lucide.createIcons();",
+      "</script>"
+    ],
+    "description": "Add Lucide CDN script and initialization"
+  },
+  "Lucide Icon with SVG": {
+    "prefix": "lucsvg",
+    "body": [
+      "<i data-lucide=\"${1:home}\" data-lucide-size=\"${2:24}\"></i>",
+      "<script src=\"https://unpkg.com/lucide@latest\"></script>",
+      "<script>",
+      "  lucide.createIcons();",
+      "</script>"
+    ],
+    "description": "Complete Lucide icon setup with CDN"
+  }
+}
