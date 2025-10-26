@@ -23,7 +23,7 @@ impl zed::Extension for LucideIconsExtension {
         args: Vec<String>,
     ) -> Result<Vec<SlashCommandArgumentCompletion>, String> {
         match command.name.as_str() {
-            "lucide-search" => {
+            "lucide-search" | "lucide-react" | "lucide-svelte" | "lucide-vue" | "lucide-html" => {
                 // Lazy-load icon data if not cached
                 if self.cached_icons.read().unwrap().is_none() {
                     self.fetch_icon_data();
@@ -161,6 +161,22 @@ impl zed::Extension for LucideIconsExtension {
                     }],
                     text,
                 })
+            }
+            "lucide-react" => {
+                let icon_name = args.first().ok_or("Please provide an icon name")?.clone();
+                self.generate_framework_output(&icon_name, "react")
+            }
+            "lucide-svelte" => {
+                let icon_name = args.first().ok_or("Please provide an icon name")?.clone();
+                self.generate_framework_output(&icon_name, "svelte")
+            }
+            "lucide-vue" => {
+                let icon_name = args.first().ok_or("Please provide an icon name")?.clone();
+                self.generate_framework_output(&icon_name, "vue")
+            }
+            "lucide-html" => {
+                let icon_name = args.first().ok_or("Please provide an icon name")?.clone();
+                self.generate_framework_output(&icon_name, "html")
             }
             _ => Err(format!("Unknown slash command: {}", command.name)),
         }
@@ -351,6 +367,27 @@ impl LucideIconsExtension {
 - [📦 CDN SVG](https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/{}.svg) — Direct SVG file\n\
 - [📚 Documentation](https://lucide.dev/guide/packages/lucide-react) — Framework guides\n\n\
 ---\n\n\
+### 🎨 Raw SVG\n\n\
+Copy this SVG code to use the icon directly:\n\n\
+```html\n\
+<!-- Basic SVG (24x24) -->\n\
+<svg\n\
+  xmlns=\"http://www.w3.org/2000/svg\"\n\
+  width=\"24\"\n\
+  height=\"24\"\n\
+  viewBox=\"0 0 24 24\"\n\
+  fill=\"none\"\n\
+  stroke=\"currentColor\"\n\
+  stroke-width=\"2\"\n\
+  stroke-linecap=\"round\"\n\
+  stroke-linejoin=\"round\"\n\
+>\n\
+  <!-- Load from CDN or inline the paths here -->\n\
+  <use href=\"https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/{}.svg#lucide-{}\" />\n\
+</svg>\n\
+```\n\n\
+**Direct SVG URL:** `https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/{}.svg`\n\n\
+---\n\n\
 ### 💻 Code Examples\n\n\
 #### React\n\
 ```jsx\n\
@@ -438,6 +475,9 @@ npm install lucide-vue-next\n\
             tags_section,
             icon_name,
             icon_name,
+            icon_name,  // SVG use href 1
+            icon_name,  // SVG use href 2  
+            icon_name,  // Direct SVG URL
             pascal_case,
             pascal_case,
             pascal_case,
@@ -667,6 +707,382 @@ npm install lucide-vue-next\n\
         html.push_str("- [GitHub Repository](https://github.com/lucide-icons/lucide)\n");
 
         html
+    }
+
+    /// Generate framework-specific output for an icon
+    fn generate_framework_output(
+        &self,
+        icon_name: &str,
+        framework: &str,
+    ) -> Result<SlashCommandOutput, String> {
+        // Check if icon exists
+        let icon_exists = self
+            .cached_icons
+            .read()
+            .unwrap()
+            .as_ref()
+            .map(|map| map.contains_key(icon_name))
+            .unwrap_or(false);
+
+        if !icon_exists {
+            return Err(format!(
+                "Icon '{}' not found. Use tab completion to see available icons.",
+                icon_name
+            ));
+        }
+
+        let tags = self
+            .cached_icons
+            .read()
+            .unwrap()
+            .as_ref()
+            .and_then(|map| map.get(icon_name))
+            .map(|t| t.join(", "))
+            .unwrap_or_default();
+
+        let pascal_case = self.to_pascal_case(icon_name);
+        let tags_vec: Vec<String> = tags.split(", ").map(|s| s.to_string()).collect();
+        let emoji = self.get_icon_emoji(icon_name, &tags_vec);
+
+        let tags_section = if !tags.is_empty() {
+            format!("**Related Terms:** {}\n\n", tags)
+        } else {
+            String::new()
+        };
+
+        let (content, framework_display) = match framework {
+            "react" => (
+                self.generate_react_output(icon_name, &pascal_case, &tags_section, emoji),
+                "React",
+            ),
+            "svelte" => (
+                self.generate_svelte_output(icon_name, &pascal_case, &tags_section, emoji),
+                "Svelte",
+            ),
+            "vue" => (
+                self.generate_vue_output(icon_name, &pascal_case, &tags_section, emoji),
+                "Vue",
+            ),
+            "html" => (
+                self.generate_html_output(icon_name, &tags_section, emoji),
+                "HTML",
+            ),
+            _ => return Err(format!("Unknown framework: {}", framework)),
+        };
+
+        let text = format!(
+            "## {} {} Icon: {}\n\n{}",
+            emoji, framework_display, icon_name, content
+        );
+
+        Ok(SlashCommandOutput {
+            sections: vec![SlashCommandOutputSection {
+                range: (0..text.len()).into(),
+                label: format!("{} Icon: {} ({})", framework_display, icon_name, framework),
+            }],
+            text,
+        })
+    }
+
+    fn generate_react_output(
+        &self,
+        icon_name: &str,
+        pascal_case: &str,
+        tags_section: &str,
+        _emoji: &str,
+    ) -> String {
+        format!(
+            "{}\
+---\n\n\
+### 📦 Installation\n\n\
+```bash\n\
+npm install lucide-react\n\
+```\n\n\
+### 💻 Usage Examples\n\n\
+#### Basic Icon\n\
+```jsx\n\
+import {{ {} }} from 'lucide-react';\n\n\
+function MyComponent() {{\n\
+  return <{} size={{24}} />;\n\
+}}\n\
+```\n\n\
+#### With Custom Styling\n\
+```jsx\n\
+import {{ {} }} from 'lucide-react';\n\n\
+function MyComponent() {{\n\
+  return (\n\
+    <{} \n\
+      size={{24}} \n\
+      color=\"#ff0000\" \n\
+      strokeWidth={{2}}\n\
+      className=\"my-icon\"\n\
+    />\n\
+  );\n\
+}}\n\
+```\n\n\
+#### Interactive Icon\n\
+```jsx\n\
+import {{ {} }} from 'lucide-react';\n\n\
+function MyComponent() {{\n\
+  const [isActive, setIsActive] = React.useState(false);\n\
+  \n\
+  return (\n\
+    <{} \n\
+      size={{24}}\n\
+      color={{isActive ? '#00ff00' : '#666'}}\n\
+      onClick={{() => setIsActive(!isActive)}}\n\
+      style={{{{ cursor: 'pointer' }}}}\n\
+    />\n\
+  );\n\
+}}\n\
+```\n\n\
+### 🎨 Available Props\n\n\
+- `size` — Icon size (number or string, default: 24)\n\
+- `color` — Icon color (CSS color value, default: currentColor)\n\
+- `strokeWidth` — Stroke width (number, default: 2)\n\
+- `absoluteStrokeWidth` — Override automatic stroke width scaling\n\
+- `className` — CSS class name\n\
+- `style` — Inline styles object\n\
+- Standard HTML/SVG attributes and event handlers\n\n\
+---\n\n\
+### 📋 Quick Links\n\n\
+- [🌐 View on Lucide.dev](https://lucide.dev/icons/{}) — Interactive preview\n\
+- [📚 React Documentation](https://lucide.dev/guide/packages/lucide-react)\n\
+- [📦 CDN SVG](https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/{}.svg)\n\
+",
+            tags_section, pascal_case, pascal_case, pascal_case, pascal_case, pascal_case, pascal_case, icon_name, icon_name
+        )
+    }
+
+    fn generate_svelte_output(
+        &self,
+        icon_name: &str,
+        pascal_case: &str,
+        tags_section: &str,
+        _emoji: &str,
+    ) -> String {
+        format!(
+            "{}\
+---\n\n\
+### 📦 Installation\n\n\
+```bash\n\
+npm install lucide-svelte\n\
+```\n\n\
+### 💻 Usage Examples\n\n\
+#### Basic Icon (Svelte 5)\n\
+```svelte\n\
+<script>\n\
+  import {{ {} }} from 'lucide-svelte';\n\
+</script>\n\n\
+<{} size={{24}} />\n\
+```\n\n\
+#### With Custom Styling\n\
+```svelte\n\
+<script>\n\
+  import {{ {} }} from 'lucide-svelte';\n\
+</script>\n\n\
+<{} \n\
+  size={{24}} \n\
+  color=\"#ff0000\" \n\
+  strokeWidth={{2}}\n\
+  class=\"my-icon\"\n\
+/>\n\
+```\n\n\
+#### Interactive Icon (Svelte 5 with Runes)\n\
+```svelte\n\
+<script>\n\
+  import {{ {} }} from 'lucide-svelte';\n\
+  \n\
+  let isActive = $state(false);\n\
+  let iconColor = $derived(isActive ? '#00ff00' : '#666');\n\
+</script>\n\n\
+<{} \n\
+  size={{24}}\n\
+  color={{iconColor}}\n\
+  onclick={{() => isActive = !isActive}}\n\
+  style=\"cursor: pointer;\"\n\
+/>\n\
+```\n\n\
+### 🎨 Available Props\n\n\
+- `size` — Icon size (number or string, default: 24)\n\
+- `color` — Icon color (CSS color value, default: currentColor)\n\
+- `strokeWidth` — Stroke width (number, default: 2)\n\
+- `absoluteStrokeWidth` — Override automatic stroke width scaling\n\
+- `class` — CSS class name\n\
+- `style` — Inline styles string\n\
+- Standard DOM event handlers (`onclick`, `onmouseover`, etc.)\n\n\
+---\n\n\
+### 📋 Quick Links\n\n\
+- [🌐 View on Lucide.dev](https://lucide.dev/icons/{}) — Interactive preview\n\
+- [📚 Svelte Documentation](https://lucide.dev/guide/packages/lucide-svelte)\n\
+- [📦 CDN SVG](https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/{}.svg)\n\
+",
+            tags_section, pascal_case, pascal_case, pascal_case, pascal_case, pascal_case, pascal_case, icon_name, icon_name
+        )
+    }
+
+    fn generate_vue_output(
+        &self,
+        icon_name: &str,
+        pascal_case: &str,
+        tags_section: &str,
+        _emoji: &str,
+    ) -> String {
+        format!(
+            "{}\
+---\n\n\
+### 📦 Installation\n\n\
+```bash\n\
+npm install lucide-vue-next\n\
+```\n\n\
+### 💻 Usage Examples\n\n\
+#### Basic Icon\n\
+```vue\n\
+<template>\n\
+  <{} :size=\"24\" />\n\
+</template>\n\n\
+<script setup>\n\
+import {{ {} }} from 'lucide-vue-next';\n\
+</script>\n\
+```\n\n\
+#### With Custom Styling\n\
+```vue\n\
+<template>\n\
+  <{} \n\
+    :size=\"24\" \n\
+    color=\"#ff0000\" \n\
+    :stroke-width=\"2\"\n\
+    class=\"my-icon\"\n\
+  />\n\
+</template>\n\n\
+<script setup>\n\
+import {{ {} }} from 'lucide-vue-next';\n\
+</script>\n\
+```\n\n\
+#### Interactive Icon\n\
+```vue\n\
+<template>\n\
+  <{} \n\
+    :size=\"24\"\n\
+    :color=\"isActive ? '#00ff00' : '#666'\"\n\
+    @click=\"toggleActive\"\n\
+    style=\"cursor: pointer;\"\n\
+  />\n\
+</template>\n\n\
+<script setup>\n\
+import {{ {} }} from 'lucide-vue-next';\n\
+import {{ ref }} from 'vue';\n\n\
+const isActive = ref(false);\n\
+const toggleActive = () => {{\n\
+  isActive.value = !isActive.value;\n\
+}};\n\
+</script>\n\
+```\n\n\
+### 🎨 Available Props\n\n\
+- `size` — Icon size (number or string, default: 24)\n\
+- `color` — Icon color (CSS color value, default: currentColor)\n\
+- `stroke-width` — Stroke width (number, default: 2)\n\
+- `absolute-stroke-width` — Override automatic stroke width scaling\n\
+- `class` — CSS class name\n\
+- `style` — Inline styles string/object\n\
+- Standard Vue event handlers (`@click`, `@mouseover`, etc.)\n\n\
+---\n\n\
+### 📋 Quick Links\n\n\
+- [🌐 View on Lucide.dev](https://lucide.dev/icons/{}) — Interactive preview\n\
+- [📚 Vue Documentation](https://lucide.dev/guide/packages/lucide-vue-next)\n\
+- [📦 CDN SVG](https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/{}.svg)\n\
+",
+            tags_section, pascal_case, pascal_case, pascal_case, pascal_case, pascal_case, pascal_case, icon_name, icon_name
+        )
+    }
+
+    fn generate_html_output(&self, icon_name: &str, tags_section: &str, _emoji: &str) -> String {
+        format!(
+            "{}\
+---\n\n\
+### 💻 Usage Examples\n\n\
+#### Basic Icon\n\
+```html\n\
+<!-- Add icon placeholder -->\n\
+<i data-lucide=\"{}\"></i>\n\n\
+<!-- Load Lucide from CDN -->\n\
+<script src=\"https://unpkg.com/lucide@latest\"></script>\n\
+<script>\n\
+  // Initialize all icons\n\
+  lucide.createIcons();\n\
+</script>\n\
+```\n\n\
+#### With Custom Attributes\n\
+```html\n\
+<i \n\
+  data-lucide=\"{}\" \n\
+  data-lucide-size=\"24\"\n\
+  data-lucide-color=\"red\"\n\
+  data-lucide-stroke-width=\"2\"\n\
+  class=\"my-icon\"\n\
+></i>\n\n\
+<script src=\"https://unpkg.com/lucide@latest\"></script>\n\
+<script>\n\
+  lucide.createIcons();\n\
+</script>\n\
+```\n\n\
+#### Dynamic Icon Creation\n\
+```html\n\
+<div id=\"icon-container\"></div>\n\n\
+<script src=\"https://unpkg.com/lucide@latest\"></script>\n\
+<script>\n\
+  // Create icon programmatically\n\
+  const container = document.getElementById('icon-container');\n\
+  const iconElement = document.createElement('i');\n\
+  iconElement.setAttribute('data-lucide', '{}');\n\
+  container.appendChild(iconElement);\n\
+  \n\
+  // Initialize the new icon\n\
+  lucide.createIcons();\n\
+</script>\n\
+```\n\n\
+#### Raw SVG (No Library)\n\
+```html\n\
+<!-- Direct SVG embed -->\n\
+<svg\n\
+  xmlns=\"http://www.w3.org/2000/svg\"\n\
+  width=\"24\"\n\
+  height=\"24\"\n\
+  viewBox=\"0 0 24 24\"\n\
+  fill=\"none\"\n\
+  stroke=\"currentColor\"\n\
+  stroke-width=\"2\"\n\
+  stroke-linecap=\"round\"\n\
+  stroke-linejoin=\"round\"\n\
+>\n\
+  <!-- Load icon paths from CDN -->\n\
+  <use href=\"https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/{}.svg#lucide-{}\" />\n\
+</svg>\n\
+```\n\n\
+### 🎨 Available Data Attributes\n\n\
+- `data-lucide` — Icon name (required)\n\
+- `data-lucide-size` — Icon size in pixels\n\
+- `data-lucide-color` — Icon color (CSS color value)\n\
+- `data-lucide-stroke-width` — Stroke width\n\
+- `data-lucide-absolute-stroke-width` — Override stroke width scaling\n\
+- Standard HTML attributes (class, style, id, etc.)\n\n\
+### 📦 CDN Options\n\n\
+```html\n\
+<!-- Latest version -->\n\
+<script src=\"https://unpkg.com/lucide@latest\"></script>\n\n\
+<!-- Specific version (recommended for production) -->\n\
+<script src=\"https://unpkg.com/lucide@0.454.0\"></script>\n\n\
+<!-- From jsDelivr -->\n\
+<script src=\"https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.js\"></script>\n\
+```\n\n\
+---\n\n\
+### 📋 Quick Links\n\n\
+- [🌐 View on Lucide.dev](https://lucide.dev/icons/{}) — Interactive preview\n\
+- [📚 HTML Documentation](https://lucide.dev/guide/packages/lucide)\n\
+- [📦 Direct SVG](https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/{}.svg)\n\
+",
+            tags_section, icon_name, icon_name, icon_name, icon_name, icon_name, icon_name, icon_name
+        )
     }
 }
 

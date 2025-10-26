@@ -8,11 +8,18 @@ Lucide Icons for Zed brings the entire [Lucide icon](https://lucide.dev) library
 
 ## ✨ Features
 
-- 🔍 Slash commands for searching (`/lucide-search`) and browsing (`/lucide-browse`)
-- 🧭 Autocomplete with keyword suggestions and icon metadata
-- 📋 Code examples for React, Svelte 5, Vue, and HTML
-- 🔗 Direct links to lucide.dev previews and CDN SVGs
-- ⚙️ Quick customization tips for size, color, and stroke
+- 🔍 **Multiple slash commands** for quick access:
+  - `/lucide-search` — Search all icons with multi-framework examples
+  - `/lucide-browse` — Browse curated icon categories
+  - `/lucide-react` — Get React-specific code for any icon
+  - `/lucide-svelte` — Get Svelte 5-specific code for any icon
+  - `/lucide-vue` — Get Vue 3-specific code for any icon
+  - `/lucide-html` — Get vanilla HTML/JavaScript code for any icon
+- 🧭 **Smart autocomplete** with keyword suggestions and icon metadata
+- 📋 **Framework-focused output** — only see the code you need
+- 🎨 **Raw SVG support** — copy-paste ready SVG code with CDN links
+- 🔗 **Direct links** to lucide.dev previews and CDN resources
+- ⚙️ **Quick customization** tips for size, color, and stroke
 
 ## 📦 Installation
 
@@ -30,10 +37,39 @@ Lucide Icons for Zed brings the entire [Lucide icon](https://lucide.dev) library
 
 ## 🚀 Usage
 
-- Open the Assistant (`Cmd+J` / `Ctrl+J`).
-- Run `/lucide-search trash` to look up a specific icon with framework snippets.
-- Run `/lucide-browse` to see curated icon categories and quick links.
-- Use Tab completion while typing icon names to preview matching results.
+Open the Zed Assistant (`Cmd+J` / `Ctrl+J`) and use any of these slash commands:
+
+### General Commands
+
+- **`/lucide-search <icon-name>`** — Search for an icon and get code examples for all frameworks
+- **`/lucide-browse`** — Browse popular icons organized by category
+
+### Framework-Specific Commands (New! ✨)
+
+Get focused output for your specific framework:
+
+- **`/lucide-react <icon-name>`** — React-only code with hooks, styling, and interaction examples
+- **`/lucide-svelte <icon-name>`** — Svelte 5-only code with runes ($state, $derived) examples
+- **`/lucide-vue <icon-name>`** — Vue 3-only code with Composition API examples
+- **`/lucide-html <icon-name>`** — Vanilla HTML/JavaScript with CDN and raw SVG options
+
+**Tab Completion:** All commands support tab completion — start typing an icon name to see suggestions with related tags.
+
+### Examples
+
+```bash
+# Get all framework examples for a home icon
+/lucide-search home
+
+# Get only React code for a trash icon
+/lucide-react trash
+
+# Get only Svelte code for a user icon
+/lucide-svelte user
+
+# Browse all available icons by category
+/lucide-browse
+```
 
 ### Framework Snippets
 

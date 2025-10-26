@@ -9,6 +9,10 @@ repository = "https://github.com/Michael-Obele/lucide-icons"
 [slash_commands]
 lucide-search = { description = "Search for Lucide icons by name", requires_argument = true }
 lucide-browse = { description = "Browse popular Lucide icons", requires_argument = false }
+lucide-react = { description = "Get Lucide icon code for React", requires_argument = true }
+lucide-svelte = { description = "Get Lucide icon code for Svelte", requires_argument = true }
+lucide-vue = { description = "Get Lucide icon code for Vue", requires_argument = true }
+lucide-html = { description = "Get Lucide icon code for HTML", requires_argument = true }
 
 
 
