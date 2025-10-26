@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.0.3] - 2025-10-26
+
+### Changed
+- Version bump: patch
+
+
 All notable changes to the Lucide Icons extension will be documented in this file.
 
 ## [0.1.0] - 2025-10-26
