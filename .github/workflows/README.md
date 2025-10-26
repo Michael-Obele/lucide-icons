@@ -63,6 +63,7 @@ The workflow requires:
 - `GITHUB_TOKEN` — Automatically provided by GitHub Actions
 
 **Already configured:** The workflow file includes:
+
 ```yaml
 permissions:
   contents: write
@@ -71,6 +72,7 @@ permissions:
 
 **Repository Settings:**
 Additionally, ensure your repository allows workflows to write:
+
 1. Go to Settings → Actions → General
 2. Under "Workflow permissions", select "Read and write permissions"
 3. Check "Allow GitHub Actions to create and approve pull requests"
