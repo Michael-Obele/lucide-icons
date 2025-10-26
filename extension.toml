@@ -1,0 +1,15 @@
+id = "lucide-icons"
+name = "Lucide Icons"
+description = "Search and browse Lucide Icons directly in Zed with slash commands"
+version = "0.0.1"
+schema_version = 1
+authors = ["Michael Obele"]
+repository = "https://github.com/Michael-Obele/lucide-icons"
+
+[slash_commands]
+lucide-search = { description = "Search for Lucide icons by name", requires_argument = true }
+lucide-browse = { description = "Browse popular Lucide icons", requires_argument = false }
+
+
+
+
