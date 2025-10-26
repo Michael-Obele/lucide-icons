@@ -39,15 +39,10 @@ Lucide Icons for Zed brings the entire [Lucide icon](https://lucide.dev) library
 
 Open the Zed Assistant (`Cmd+J` / `Ctrl+J`) and use any of these slash commands:
 
-### General Commands
+### Slash Commands
 
 - **`/lucide-search <icon-name>`** — Search for an icon and get code examples for all frameworks
 - **`/lucide-browse`** — Browse popular icons organized by category
-
-### Framework-Specific Commands (New! ✨)
-
-Get focused output for your specific framework:
-
 - **`/lucide-react <icon-name>`** — React-only code with hooks, styling, and interaction examples
 - **`/lucide-svelte <icon-name>`** — Svelte 5-only code with runes ($state, $derived) examples
 - **`/lucide-vue <icon-name>`** — Vue 3-only code with Composition API examples
@@ -55,7 +50,7 @@ Get focused output for your specific framework:
 
 **Tab Completion:** All commands support tab completion — start typing an icon name to see suggestions with related tags.
 
-### Examples
+### Command Examples
 
 ```bash
 # Get all framework examples for a home icon
@@ -126,12 +121,14 @@ export function Header() {
 
 ## 🤝 Contributing
 
-Contributions are welcome:
+Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines on:
 
-1. Fork and branch (`git checkout -b feature/your-feature`).
-2. Make and test your changes inside Zed.
-3. Commit (`git commit -m "Describe change"`) and push.
-4. Open a pull request with testing notes.
+- Development setup and prerequisites
+- Project structure and code conventions
+- Testing procedures
+- Pull request process
+
+**Automated Versioning:** Commits to `main` with `[patch]`, `[minor]`, or `[major]` tags automatically bump the version, update the changelog, and create releases.
 
 ## 📄 License
 
