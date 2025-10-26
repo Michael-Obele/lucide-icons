@@ -6,6 +6,12 @@
 
 Lucide Icons for Zed brings the entire [Lucide icon](https://lucide.dev) library into the Zed Assistant. Search icons, browse curated lists, and grab framework-specific snippets without leaving your editor.
 
+<!-- Demo video placeholder - uncomment when available
+## 🎥 Demo
+
+[Demo video or GIF showing the extension in action]
+-->
+
 ## ✨ Features
 
 - 🔍 **Multiple slash commands** for quick access:
@@ -23,17 +29,15 @@ Lucide Icons for Zed brings the entire [Lucide icon](https://lucide.dev) library
 
 ## 📦 Installation
 
-**Zed Extensions Gallery**
+> **⚠️ Note: Not Available on Marketplace**
+>
+> This extension is **not available on the Zed Extensions Gallery**. As noted in [PR #3670](https://github.com/zed-industries/extensions/pull/3670), slash commands are intended for providing context to AI agents, not for general utility features like icon insertion. This extension will be reconsidered if/when Zed's extension API expands to support custom palette actions, keybindings, and direct buffer edits.
 
-1. Open Zed and press `Cmd+Shift+X` (`Ctrl+Shift+X` on Linux/Windows).
-2. Search for `Lucide Icons`.
-3. Click **Install**.
-
-**Manual (Development)**
+**Manual Installation (Required)**
 
 1. Clone the repository: `git clone https://github.com/Michael-Obele/lucide-icons.git`.
 2. Build the extension: `cargo build --release`.
-3. In Zed, run `zed: install dev extension` and select the project folder.
+3. In Zed, run `zed: install dev extension` (via command palette) and select the project folder.
 
 ## 🚀 Usage
 
@@ -42,6 +46,7 @@ Lucide Icons for Zed brings the entire [Lucide icon](https://lucide.dev) library
 > These slash commands only work in **text threads** within Zed's Agent Panel. Text threads are an editor-based interface for conversing with language models, where you can use slash commands to enhance your AI interactions.
 >
 > **To use Lucide icon commands:**
+>
 > 1. Open the Agent Panel with `Cmd+J` (`Ctrl+J` on Linux/Windows)
 > 2. Start a new text thread or open an existing one
 > 3. Type `/` at the beginning of a line to see all available slash commands
