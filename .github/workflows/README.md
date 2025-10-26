@@ -77,8 +77,6 @@ Additionally, ensure your repository allows workflows to write:
 2. Under "Workflow permissions", select "Read and write permissions"
 3. Check "Allow GitHub Actions to create and approve pull requests"
 
-📖 **See [WORKFLOW_SETUP.md](../WORKFLOW_SETUP.md) for detailed setup instructions and troubleshooting.**
-
 ### Manual Override
 
 If you need to bump version without the workflow:
