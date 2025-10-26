@@ -1,7 +1,7 @@
 # Lucide Icons for Zed
 
 [![Zed Extension](https://img.shields.io/badge/zed-extension-blue)](https://zed.dev/extensions)
-[![Version](https://img.shields.io/badge/version-0.0.1-green)](https://github.com/Michael-Obele/lucide-icons)
+[![Version](https://img.shields.io/github/v/tag/Michael-Obele/lucide-icons)](https://github.com/Michael-Obele/lucide-icons/tags)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 Lucide Icons for Zed brings the entire [Lucide icon](https://lucide.dev) library into the Zed Assistant. Search icons, browse curated lists, and grab framework-specific snippets without leaving your editor.
@@ -37,7 +37,19 @@ Lucide Icons for Zed brings the entire [Lucide icon](https://lucide.dev) library
 
 ## 🚀 Usage
 
-Open the Zed Assistant (`Cmd+J` / `Ctrl+J`) and use any of these slash commands:
+> **📌 Important: Text Threads Only**
+>
+> These slash commands only work in **text threads** within Zed's Agent Panel. Text threads are an editor-based interface for conversing with language models, where you can use slash commands to enhance your AI interactions.
+>
+> **To use Lucide icon commands:**
+> 1. Open the Agent Panel with `Cmd+J` (`Ctrl+J` on Linux/Windows)
+> 2. Start a new text thread or open an existing one
+> 3. Type `/` at the beginning of a line to see all available slash commands
+> 4. Select any Lucide command (e.g., `/lucide-search`, `/lucide-react`) from the list
+>
+> **What are text threads?** Text threads in the Agent Panel work like a regular editor with message blocks for "You", "Assistant", and "System" roles. You can edit messages, use multiple cursors, and insert slash commands to add dynamic content like icon code snippets.
+>
+> 📖 Learn more: [Text Threads Documentation](https://zed.dev/docs/ai/text-threads.html)
 
 ### Slash Commands
 
