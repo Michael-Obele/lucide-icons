@@ -1,142 +1,72 @@
 # Lucide Icons for Zed
 
-A Zed extension that allows you to search and browse Lucide Icons directly within the editor using slash commands.
-
-![Zed Extension](https://img.shields.io/badge/zed-extension-blue)
-![Version](https://img.shields.io/badge/version-0.0.1-green)
-
-## Features
-
-- 🔍 **Search Icons**: Find specific Lucide icons by name with autocompletion
-- 📚 **Browse Icons**: View popular icons and usage examples
-- 📋 **Copy Code**: Get ready-to-use code snippets for React, Vue, and HTML
-- 🔗 **Quick Links**: Direct links to official Lucide documentation
-
-## Installation
-
-### From Zed Extensions Gallery
-
-1. Open Zed
-2. Press `Cmd+Shift+X` (or `Ctrl+Shift+X` on Linux/Windows)
-3. Search for "Lucide Icons"
-4. Click Install
-
-### Manual Installation (Development)
-
-1. Clone this repository
-2. In Zed, open the command palette and run `zed: install dev extension`
-3. Select the extension directory
-
-## Usage
-
-### Search for Icons
-
-Use the `/lucide-search` slash command to find specific icons:
-
-````
-# Lucide Icons for Zed
-
 [![Zed Extension](https://img.shields.io/badge/zed-extension-blue)](https://zed.dev/extensions)
 [![Version](https://img.shields.io/badge/version-0.0.1-green)](https://github.com/Michael-Obele/lucide-icons)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-A Zed extension that allows you to search and browse [Lucide Icons](https://lucide.dev) (1640+ icons) directly within the editor using slash commands. Get instant access to ready-to-use code snippets for React, Vue, Svelte, and HTML.
+Lucide Icons for Zed brings the entire [Lucide icon](https://lucide.dev) library into the Zed Assistant. Search icons, browse curated lists, and grab framework-specific snippets without leaving your editor.
 
 ## ✨ Features
 
-- 🔍 **Search Icons** — Find specific Lucide icons by name with autocompletion
-- 📚 **Browse Popular Icons** — View commonly used icons and quick examples
-- 📋 **Multi-Framework Support** — Get code snippets for React, Vue, Svelte, and HTML
-- ⚡ **Fast & Lightweight** — Instant access without leaving your editor
-- 🔗 **Direct Links** — Quick navigation to official Lucide documentation
+- 🔍 Slash commands for searching (`/lucide-search`) and browsing (`/lucide-browse`)
+- 🧭 Autocomplete with keyword suggestions and icon metadata
+- 📋 Code examples for React, Svelte 5, Vue, and HTML
+- 🔗 Direct links to lucide.dev previews and CDN SVGs
+- ⚙️ Quick customization tips for size, color, and stroke
 
 ## 📦 Installation
 
-### From Zed Extensions Gallery
-1. Open Zed
-2. Press `Cmd+Shift+X` (or `Ctrl+Shift+X` on Linux/Windows)
-3. Search for "Lucide Icons"
-4. Click Install
+**Zed Extensions Gallery**
 
-### Manual Installation (Development)
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/Michael-Obele/lucide-icons.git
-````
+1. Open Zed and press `Cmd+Shift+X` (`Ctrl+Shift+X` on Linux/Windows).
+2. Search for `Lucide Icons`.
+3. Click **Install**.
 
-2. In Zed, open the command palette and run `zed: install dev extension`
-3. Select the extension directory
+**Manual (Development)**
+
+1. Clone the repository: `git clone https://github.com/Michael-Obele/lucide-icons.git`.
+2. Build the extension: `cargo build --release`.
+3. In Zed, run `zed: install dev extension` and select the project folder.
 
 ## 🚀 Usage
 
-### Search for Icons
+- Open the Assistant (`Cmd+J` / `Ctrl+J`).
+- Run `/lucide-search trash` to look up a specific icon with framework snippets.
+- Run `/lucide-browse` to see curated icon categories and quick links.
+- Use Tab completion while typing icon names to preview matching results.
 
-Use the `/lucide-search` slash command in the Assistant to find specific icons:
-
-```
-/lucide-search home
-/lucide-search user
-/lucide-search settings
-```
-
-The extension provides:
-
-- Icon usage information
-- Framework-specific code examples (React, Vue, Svelte, HTML)
-- Direct link to the icon on lucide.dev
-
-### Browse Popular Icons
-
-Use the `/lucide-browse` slash command to see a curated list of popular icons:
-
-```
-/lucide-browse
-```
-
-This displays:
-
-- Most commonly used icons with links
-- Quick-reference usage examples
-- Framework-agnostic syntax guide
-
-## 📝 Supported Frameworks
-
-The extension provides accurate code snippets for multiple frameworks based on [official Lucide documentation](https://lucide.dev):
-
-### React
+### Framework Snippets
 
 ```jsx
+// React
 import { Home } from "lucide-react";
 
-<Home size={24} />;
+export function Header() {
+  return <Home size={24} strokeWidth={1.5} />;
+}
 ```
 
-### Svelte
-
-```svelte
+```html
 <script>
-  import { Home } from '@lucide/svelte';
+  import { Home } from "@lucide/svelte";
+  let iconSize = $state(24);
 </script>
 
-<Home size={24} />
+<Home size="{iconSize}" />
 ```
 
-### Vue
-
-```vue
+```html
 <template>
-  <Home :size="24" />
+  <Home :size="24" :stroke-width="1.5" />
 </template>
 
 <script setup>
-import { Home } from "lucide-vue-next";
+  import { Home } from "lucide-vue-next";
 </script>
 ```
 
-### HTML
-
 ```html
-<i data-lucide="home"></i>
+<i data-lucide="home" data-lucide-size="24" data-lucide-stroke-width="1.5"></i>
 <script src="https://unpkg.com/lucide@latest"></script>
 <script>
   lucide.createIcons();
@@ -145,137 +75,39 @@ import { Home } from "lucide-vue-next";
 
 ## 🛠️ Development
 
-### Prerequisites
-
-- Rust (install via [rustup](https://rustup.rs/))
-- Cargo
-- `wasm32-wasip1` target: `rustup target add wasm32-wasip1`
-
-### Building
-
-```bash
-cargo build --release
-```
-
-The compiled extension will be in `target/wasm32-wasip1/release/lucide_icons.wasm`
-
-### Testing
-
-1. Install as dev extension in Zed (see Manual Installation above)
-2. Use the slash commands (`/lucide-search`, `/lucide-browse`) to test functionality
-3. Check Zed logs (`zed: open log`) for any errors or debugging output
+- **Prerequisites:** Rust (via [rustup](https://rustup.rs/)), Cargo, and the `wasm32-wasip1` target (`rustup target add wasm32-wasip1`).
+- **Build:** `cargo build --release`
+- **Artifacts:** `target/wasm32-wasip1/release/lucide_icons.wasm`
+- **Test:** Install as a dev extension, open the Assistant, and run the slash commands.
+- **Debug:** Use `zed: open log` inside Zed or launch Zed with `zed --foreground` for verbose output.
 
 ## 🗺️ Roadmap
 
-- [ ] Add icon preview images in search results
-- [ ] Implement fuzzy search for better icon discovery
-- [ ] Add support for icon categories and filtering
-- [ ] Create visual icon browser with webview
-- [ ] Support for icon variants (size, stroke width, color options)
-- [ ] Add custom icon sets support
-- [ ] Integrate with clipboard for quick copying
+- Add fuzzy search scoring and ranking improvements
+- Provide icon categories with richer metadata
+- Offer ready-to-copy snippets for more frameworks (Solid, Angular, Web Components)
+- Explore inline preview once Zed exposes rendering APIs
 
 ## 🤝 Contributing
 
-Contributions are welcome! Here's how you can help:
+Contributions are welcome:
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Make your changes
-4. Test the extension in Zed
-5. Commit your changes (`git commit -m 'Add some amazing feature'`)
-6. Push to the branch (`git push origin feature/amazing-feature`)
-7. Open a Pull Request
+1. Fork and branch (`git checkout -b feature/your-feature`).
+2. Make and test your changes inside Zed.
+3. Commit (`git commit -m "Describe change"`) and push.
+4. Open a pull request with testing notes.
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT License — see `LICENSE` for details.
 
 ## 🙏 Acknowledgments
 
-- [Lucide Icons](https://lucide.dev) — Beautiful & consistent icon toolkit made by the community
-- [Zed Editor](https://zed.dev) — High-performance, multiplayer code editor
-- Inspired by VS Code's Lucide Icons extensions
+- [Lucide Icons](https://lucide.dev) for the icon set and documentation
+- [Zed Editor](https://zed.dev) for the extension platform
 
----
+## 📞 Support
 
-**Note**: This extension uses Zed's slash command system to provide seamless icon search and browsing within the Assistant panel.
-
-```
-
-The extension will provide:
-- Icon preview information
-- Usage examples for React, Vue, and HTML
-- Direct link to the icon on lucide.dev
-
-### Browse Popular Icons
-
-Use the `/lucide-browse` slash command to see a list of popular icons:
-
-```
-
-/lucide-browse
-
-````
-
-This shows:
-- Most commonly used icons
-- Quick copy-paste code snippets
-- Links to the full Lucide library
-
-## Supported Frameworks
-
-The extension provides code snippets for:
-
-- **React**: `<Home size={24} />`
-- **Vue**: `<lucide-home :size="24" />`
-- **HTML**: `<i data-lucide="home"></i>`
-- **Web Components**: `<lucide-home size="24" />`
-
-## Development
-
-### Prerequisites
-- Rust (installed via rustup)
-- Cargo
-
-### Building
-
-```bash
-cargo build --release
-````
-
-### Testing
-
-1. Install as dev extension in Zed
-2. Use the slash commands to test functionality
-3. Check Zed logs (`zed: open log`) for any errors
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test the extension
-5. Submit a pull request
-
-## Roadmap
-
-- [ ] Add icon preview images
-- [ ] Implement icon search with fuzzy matching
-- [ ] Add support for custom icon sets
-- [ ] Create webview for visual icon browser
-- [ ] Add icon category filtering
-- [ ] Support for icon variants (size, stroke, fill)
-
-## License
-
-MIT License - see [LICENSE](LICENSE) file for details.
-
-## Acknowledgments
-
-- [Lucide Icons](https://lucide.dev) - Beautiful & consistent icon toolkit
-- [Zed Editor](https://zed.dev) - High-performance code editor
-
----
-
-**Note**: This extension is inspired by VS Code's Lucide Icons extensions and adapts the functionality for Zed's unique slash command system.
+- Issues & feature requests: [GitHub Issues](https://github.com/Michael-Obele/lucide-icons/issues)
+- Lucide docs: [lucide.dev](https://lucide.dev)
+- Zed docs: [zed.dev/docs](https://zed.dev/docs)
