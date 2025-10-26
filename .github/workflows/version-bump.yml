@@ -1,0 +1,137 @@
+name: Version Bump
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  version-bump:
+    runs-on: ubuntu-latest
+    
+    # Only run if commit message contains version bump keywords
+    if: |
+      contains(github.event.head_commit.message, '[major]') ||
+      contains(github.event.head_commit.message, '[minor]') ||
+      contains(github.event.head_commit.message, '[patch]')
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+      
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+      
+      - name: Determine version bump type
+        id: bump-type
+        run: |
+          MESSAGE="${{ github.event.head_commit.message }}"
+          
+          if echo "$MESSAGE" | grep -q "\[major\]"; then
+            echo "type=major" >> $GITHUB_OUTPUT
+          elif echo "$MESSAGE" | grep -q "\[minor\]"; then
+            echo "type=minor" >> $GITHUB_OUTPUT
+          elif echo "$MESSAGE" | grep -q "\[patch\]"; then
+            echo "type=patch" >> $GITHUB_OUTPUT
+          else
+            echo "type=none" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Extract current version
+        id: current-version
+        run: |
+          VERSION=$(grep '^version = ' extension.toml | head -n 1 | sed 's/version = "\(.*\)"/\1/')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Current version: $VERSION"
+      
+      - name: Calculate new version
+        id: new-version
+        run: |
+          CURRENT="${{ steps.current-version.outputs.version }}"
+          BUMP_TYPE="${{ steps.bump-type.outputs.type }}"
+          
+          # Split version into major.minor.patch
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT"
+          
+          case $BUMP_TYPE in
+            major)
+              MAJOR=$((MAJOR + 1))
+              MINOR=0
+              PATCH=0
+              ;;
+            minor)
+              MINOR=$((MINOR + 1))
+              PATCH=0
+              ;;
+            patch)
+              PATCH=$((PATCH + 1))
+              ;;
+          esac
+          
+          NEW_VERSION="$MAJOR.$MINOR.$PATCH"
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "New version: $NEW_VERSION"
+      
+      - name: Update extension.toml
+        run: |
+          CURRENT="${{ steps.current-version.outputs.version }}"
+          NEW="${{ steps.new-version.outputs.version }}"
+          
+          # Update version in extension.toml
+          sed -i "s/^version = \"$CURRENT\"/version = \"$NEW\"/" extension.toml
+          
+          echo "Updated extension.toml from $CURRENT to $NEW"
+          
+          # Show the change
+          git diff extension.toml
+      
+      - name: Update CHANGELOG.md
+        run: |
+          NEW="${{ steps.new-version.outputs.version }}"
+          BUMP_TYPE="${{ steps.bump-type.outputs.type }}"
+          DATE=$(date +%Y-%m-%d)
+          
+          # Create changelog entry
+          ENTRY="## [$NEW] - $DATE\n\n### Changed\n- Version bump: $BUMP_TYPE\n"
+          
+          # Insert after the first line (# Changelog)
+          if [ -f CHANGELOG.md ]; then
+            sed -i "1a\\\\n$ENTRY" CHANGELOG.md
+          else
+            echo -e "# Changelog\n\n$ENTRY" > CHANGELOG.md
+          fi
+          
+          echo "Updated CHANGELOG.md with version $NEW"
+          git diff CHANGELOG.md
+      
+      - name: Commit and tag
+        run: |
+          NEW="${{ steps.new-version.outputs.version }}"
+          BUMP_TYPE="${{ steps.bump-type.outputs.type }}"
+          
+          git add extension.toml CHANGELOG.md
+          git commit -m "chore: bump version to $NEW [$BUMP_TYPE]"
+          git tag "v$NEW"
+          git push origin main
+          git push origin "v$NEW"
+      
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.new-version.outputs.version }}
+          release_name: Release v${{ steps.new-version.outputs.version }}
+          body: |
+            ## Version ${{ steps.new-version.outputs.version }}
+            
+            Version bump: ${{ steps.bump-type.outputs.type }}
+            
+            Triggered by commit: ${{ github.event.head_commit.message }}
+          draft: false
+          prerelease: false
